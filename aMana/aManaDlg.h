@@ -109,4 +109,5 @@ public:
 	afx_msg void OnBnClickedButtonAutomatch();
 	afx_msg void OnDblclkListRecords(NMHDR *pNMHDR, LRESULT *pResult);
 	
+	afx_msg void OnBnClickedButtonLibq();
 };

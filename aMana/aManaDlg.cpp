@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(CaManaDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_UPDATEDB, &CaManaDlg::OnBnClickedButtonUpdatedb)
 	ON_BN_CLICKED(IDC_BUTTON_AUTOMATCH, &CaManaDlg::OnBnClickedButtonAutomatch)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_RECORDS, &CaManaDlg::OnDblclkListRecords)
+	ON_BN_CLICKED(IDC_BUTTON_LIBQ, &CaManaDlg::OnBnClickedButtonLibq)
 END_MESSAGE_MAP()
 
 
@@ -497,8 +498,8 @@ void CaManaDlg::OnBnClickedButtonChangedir()
 		GetDlgItem(IDC_EDIT_DIR7)->EnableWindow(TRUE);
 		GetDlgItem(IDC_EDIT_DIRPIC)->EnableWindow(TRUE);
 		GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(FALSE);
-		GetDlgItem(IDC_BUTTON_2PIC)->EnableWindow(FALSE);
-		GetDlgItem(IDC_BUTTON_2LIB)->EnableWindow(FALSE);
+		GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(FALSE);
+		GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(FALSE);
 		ChangeRootPathStatus = 1;
 	}
 	else if (ChangeRootPathStatus == 1)
@@ -615,8 +616,8 @@ void CaManaDlg::OnBnClickedButtonChangedir()
 		GetDlgItem(IDC_EDIT_DIR7)->EnableWindow(FALSE);
 		GetDlgItem(IDC_EDIT_DIRPIC)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(TRUE);
-		GetDlgItem(IDC_BUTTON_2PIC)->EnableWindow(TRUE);
-		GetDlgItem(IDC_BUTTON_2LIB)->EnableWindow(TRUE);
+		GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(TRUE);
+		GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(TRUE);
 	}
 
 }
@@ -1038,7 +1039,6 @@ void CaManaDlg::AutoMatch()
 void CaManaDlg::OnBnClickedButtonTest()
 {
 
-
 }
 
 
@@ -1080,4 +1080,10 @@ void CaManaDlg::OnDblclkListRecords(NMHDR *pNMHDR, LRESULT *pResult)
 		
 	}
 	*pResult = 0;
+}
+
+
+void CaManaDlg::OnBnClickedButtonLibq()
+{
+	
 }
