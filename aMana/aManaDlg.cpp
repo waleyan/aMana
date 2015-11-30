@@ -44,6 +44,7 @@ BEGIN_MESSAGE_MAP(CaManaDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_AUTOMATCH, &CaManaDlg::OnBnClickedButtonAutomatch)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_RECORDS, &CaManaDlg::OnDblclkListRecords)
 	ON_BN_CLICKED(IDC_BUTTON_LIBQ, &CaManaDlg::OnBnClickedButtonLibq)
+	ON_BN_CLICKED(IDC_BUTTON_SET2NEW, &CaManaDlg::OnBnClickedButtonSet2new)
 END_MESSAGE_MAP()
 
 
@@ -258,6 +259,8 @@ void CaManaDlg::OnBnClickedButtonNonew()
 		GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(FALSE);
+		GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(FALSE);
+
 
 		CString mySQLtext;
 		_variant_t RecordsAffected;
@@ -278,6 +281,8 @@ void CaManaDlg::OnBnClickedButtonNonew()
 		GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(TRUE);
 		GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(TRUE);
 		GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(TRUE);
+		GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(TRUE);
+
 	}
 }
 
@@ -500,6 +505,7 @@ void CaManaDlg::OnBnClickedButtonChangedir()
 		GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(FALSE);
+		GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(FALSE);
 		ChangeRootPathStatus = 1;
 	}
 	else if (ChangeRootPathStatus == 1)
@@ -618,6 +624,8 @@ void CaManaDlg::OnBnClickedButtonChangedir()
 		GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(TRUE);
 		GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(TRUE);
 		GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(TRUE);
+		GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(TRUE);
+
 	}
 
 }
@@ -886,6 +894,8 @@ void CaManaDlg::OnBnClickedButtonUpdatedb()
 		GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(FALSE);
+		GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(FALSE);
+
 
 		CWinThread* h_thread;
 		h_thread = AfxBeginThread(ThreadUpdateDB, (LPVOID) this);
@@ -922,6 +932,8 @@ UINT CaManaDlg::ThreadUpdateDB(LPVOID pParam)
 	p->GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(TRUE);
 	p->GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(TRUE);
 	p->GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(TRUE);
+	p->GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(TRUE);
+
 	return 0;
 	AfxEndThread;
 }
@@ -934,6 +946,8 @@ void CaManaDlg::OnBnClickedButtonAutomatch()
 		GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(FALSE);
+		GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(FALSE);
+
 
 		CWinThread* h_thread;
 		h_thread = AfxBeginThread(ThreadMatch, (LPVOID) this);
@@ -950,6 +964,8 @@ UINT CaManaDlg::ThreadMatch(LPVOID pParam)
 	p->GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(TRUE);
 	p->GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(TRUE);
 	p->GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(TRUE);
+	p->GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(TRUE);
+
 
 	return 0;
 	AfxEndThread;
@@ -1086,4 +1102,61 @@ void CaManaDlg::OnDblclkListRecords(NMHDR *pNMHDR, LRESULT *pResult)
 void CaManaDlg::OnBnClickedButtonLibq()
 {
 	
+}
+
+
+void CaManaDlg::OnBnClickedButtonSet2new()
+{
+	isBusyWorking = true;
+	GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(FALSE);
+	GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(FALSE);
+	GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(FALSE);
+	GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(FALSE);
+
+
+	CString mySQLtext;
+	_variant_t RecordsAffected;
+	CString tmpVID, tmpFilePath;
+	int NumVID;
+	int RecordCount;
+	int i;
+
+	echoAndReturn(_T("\r\n\r\n---------------------------------------->>Batch2New Starts !!!<<----------------------------------------\r\n"));
+
+	RecordCount = m_ListCtrl.GetItemCount();
+	for (i = 0; i < RecordCount; i++)
+	{
+		if (m_ListCtrl.GetCheck(i) == 1)
+		{
+			tmpVID = m_ListCtrl.GetItemText(i, 10);
+			if (tmpVID == _T(""))
+				continue;
+			NumVID = _ttoi(tmpVID);
+			tmpFilePath = m_ListCtrl.GetItemText(i, 0);
+			mySQLtext.Format(_T("UPDATE videos SET IsNew=1 WHERE VID = %d;"), NumVID);
+			try
+			{
+				iAcc3.m_pRecordset = iAcc3.m_pConnection->Execute(_bstr_t(mySQLtext), &RecordsAffected, adCmdText);
+			}
+			catch (_com_error &e)
+			{
+				CString eorr;
+				eorr.Format(L"DB failed! Code:%08X   Info:%s \r\nDescribe:%s\r\n", e.Error(), (wchar_t*)e.ErrorMessage(), (wchar_t*)e.Description());
+				echoAndReturn(eorr);
+				return;
+			}
+
+			echoAndReturn(tmpFilePath + _T("\tturns new!"));
+
+		}
+	}
+	for (i = 0; i < RecordCount; i++)
+		m_ListCtrl.SetCheck(i, 0);
+	echoAndReturn(_T("\r\n---------------------------------------->>Batch2New Ends !!!<<----------------------------------------\r\n\r\n"));
+	isBusyWorking = false;
+	GetDlgItem(IDC_BUTTON_UPDATEDB)->EnableWindow(TRUE);
+	GetDlgItem(IDC_BUTTON_AUTOMATCH)->EnableWindow(TRUE);
+	GetDlgItem(IDC_BUTTON_NONEW)->EnableWindow(TRUE);
+	GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(TRUE);
+
 }

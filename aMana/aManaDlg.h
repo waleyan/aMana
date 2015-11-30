@@ -110,4 +110,5 @@ public:
 	afx_msg void OnDblclkListRecords(NMHDR *pNMHDR, LRESULT *pResult);
 	
 	afx_msg void OnBnClickedButtonLibq();
+	afx_msg void OnBnClickedButtonSet2new();
 };
