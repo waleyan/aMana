@@ -69,6 +69,7 @@ BOOL CaManaDlg::OnInitDialog()
 		GetDlgItem(IDC_BUTTON_CHANGEDIR)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_QUERY)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_CLNLIST)->EnableWindow(FALSE);
+		GetDlgItem(IDC_BUTTON_SET2NEW)->EnableWindow(FALSE);
 		return TRUE;
 	}
 
