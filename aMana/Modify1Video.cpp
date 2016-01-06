@@ -149,6 +149,13 @@ void Modify1Video::OnBnClickedOk()
 		bNew = check_new.GetCheck();
 		GetDlgItemText(IDC_EDIT_FH1, bName1);
 		GetDlgItemText(IDC_EDIT_FH2, bName2);
+
+		if (bName1 == _T("") || bName2 == _T(""))
+		{
+			MessageBox(_T("FanHao should not be blank!"));
+			return;
+		}
+
 		bName1 = bName1.MakeLower();
 		bName2 = bName2.MakeLower();
 		try
