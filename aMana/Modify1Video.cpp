@@ -169,7 +169,7 @@ void Modify1Video::OnBnClickedOk()
 				mySQLtext.Format(_T("SELECT @@Identity AS NewLibID;"));
 				mDlg->iAcc3.m_pRecordset = mDlg->iAcc3.m_pConnection->Execute(_bstr_t(mySQLtext), &RecordsAffected, adCmdText);
 				mLIB = mDlg->iAcc3.m_pRecordset->GetCollect("NewLibID");
-				mDlg->echoAndReturn(_T("\r\n") + bName1 + _T(" ") + bName2 + _T("\thas been added to library!\r\n"));
+				mDlg->echoAndReturn(_T("\r\n") + bName1 + _T(" ") + bName2 + _T(" \thas been added to library!\r\n"));
 			}
 			else
 			{
