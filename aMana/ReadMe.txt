@@ -4,3 +4,4 @@ v3.1.1		add batch change videos to new ; add tab stop to single record modify in
 v3.1.2		optimized tab function for main interface
 v3.1.3		add verification to modify interface, make sure FanHao should not be blank
 v3.1.4		add confirm window for 'to new' button
+v3.2.1		add function of serie edit for modify 1 record interface

@@ -17,6 +17,9 @@ public:
 	void ShowPic(CString pp);
 	void RecordInit();
 
+	int sID[1024];
+	CString	sName[1024];
+
 // Dialog Data
 	enum { IDD = IDD_MODIFY1VIDEO_DIALOG };
 
@@ -34,4 +37,7 @@ public:
 	CButton check_new;
 	CButton check_del;
 	afx_msg void OnBnClickedButtonClear();
+	CComboBox combo_serie;
+	CButton check_serie;
+	afx_msg void OnClickedCheckChangserie();
 };
